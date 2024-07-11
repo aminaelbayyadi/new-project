@@ -3,7 +3,7 @@ const cors = require("cors");
 const mysql = require("mysql");
 
 const app = express("");
-
+app.use(express.json());
 app.use(cors ());
 
 const db = mysql.createConnection({
@@ -28,6 +28,25 @@ app.get("/", (req,res) => {
   return res.json(data);
     })
 })
+
+app.post("/", (req, res) => {
+  const { name, email } = req.body;
+  const sql = "INSERT INTO student (Name, Email) VALUES ( ?, ?)";
+  db.query(sql, [name, email], (err, data) => {
+      if (err) return res.json(err);
+      return res.json({ message: "Student added successfully", data });
+  });
+});
+
+app.delete("/student/:id",(req, res) => {
+  const sql = "DELETE FROM student WHERE ID = ?";
+  const id =req.params.id ;
+
+  db.query(sql,[id], (err, data) => {
+      if (err) return res.json(err);
+      return res.json({ message: "Student deleted successfully", data });
+  });
+});
 
 const PORT = process.env.PORT || 8084;
 app.listen(PORT, () => {

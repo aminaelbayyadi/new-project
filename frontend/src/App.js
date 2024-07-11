@@ -8,8 +8,10 @@ function App() {
       <BrowserRouter>
       <Routes>
         <Route path='/' element= {<Student/>}></Route>
+
       </Routes>
       </BrowserRouter>
+
     </div>
   );
 }

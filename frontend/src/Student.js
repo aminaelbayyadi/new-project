@@ -29,17 +29,38 @@ function Student() {
                 navigate('/');
             }).catch(err => console.log(err));
     }
+ const toggleCompleted = async (id, completed) => {
+        try {
+            await axios.put(`http://localhost:8084/student/${id}`, { completed: !completed });
+            setStudents(students.map(student => student.ID === id ? { ...student, completed: !student.completed } : student));
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
+
+
+    function handleChange() {
+        toggleCompleted(students.id);
+        }
     
     return (
+        
         <div className='d-flex vh-100 bg-primary justify-content-center align-items-center'>
             <div className='w-50 bg-white rounded p-3'>
+
+            <div className="container-fluid" style={{ background: "Green", padding: "15px 0", color: "#fafafa" }}>
+                <div className="container">
+                    <h5 style={{ color: "#fafafa",marginLeft: "205px " }}> TODO LIST  </h5>
+                </div>
+            </div>
             <form class="d-flex justify-content-center align-items-center mb-4" onSubmit={handleSubmit} >
               <div data-mdb-input-init class="form-outline flex-fill">
                 <input type="text" id="form3" class="form-control form-control-lg"  onChange={e => setName(e.target.value)} 
                         value={name} />
                 <label class="form-label" for="form3">What do you need to do today?</label>
               </div>
+
               <button type="submit"  class="btn btn-primary btn-lg ms-2">Add +</button>
             </form>
 
@@ -48,10 +69,11 @@ function Student() {
                     <tbody>
                         {students.map((student, index) => (
                             <tr key={index}>
+                                <input type="checkbox" checked={student.completed} onChange={handleChange}/>
                                 <td>{student.Name}</td>
                                 
                                 <td>
-                                    <button className='btn btn-danger ms-2' onClick={e => handleDelete(student.ID)}>Delete</button>
+                                    <button style={{ color: "red", cursor: "pointer" }} className="fa-solid fa-trash-can" onClick={e => handleDelete(student.ID)}>X</button>
                                 </td>
                             </tr>
                         ))}

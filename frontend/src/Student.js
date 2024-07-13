@@ -51,12 +51,12 @@ function Student() {
 
             <div className="container-fluid" style={{ background: "Green", padding: "15px 0", color: "#fafafa" }}>
                 <div className="container">
-                    <h5 style={{ color: "#fafafa",marginLeft: "205px " }}> TODO LIST  </h5>
+                    <h5 style={{ color: "#fafafa",marginLeft: "245px "}}> TODO LIST  </h5>
                 </div>
             </div>
             <form class="d-flex justify-content-center align-items-center mb-4" onSubmit={handleSubmit} >
               <div data-mdb-input-init class="form-outline flex-fill">
-                <input type="text" id="form3" class="form-control form-control-lg"  onChange={e => setName(e.target.value)} 
+                <input type="text" style={{ marginTop: "30px "}} id="form3" class="form-control form-control-lg"  onChange={e => setName(e.target.value)} 
                         value={name} />
                 <label class="form-label" for="form3">What do you need to do today?</label>
               </div>

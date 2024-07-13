@@ -48,6 +48,16 @@ app.delete("/student/:id",(req, res) => {
   });
 });
 
+app.put("/student/:id", (req, res) => {
+  const { completed } = req.body;
+  const sql = "UPDATE student SET completed = ? WHERE ID = ?";
+  const id = req.params.id;
+
+  db.query(sql, [completed, id], (err, data) => {
+      if (err) return res.json(err);
+      return res.json({ message: "Student updated successfully", data });
+  });
+});
 const PORT = process.env.PORT || 8084;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

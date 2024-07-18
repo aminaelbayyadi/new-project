@@ -22,44 +22,45 @@ db.connect(err => {
   console.log('Connected to MySQL as id', db.threadId);
 });
 app.get("/", (req,res) => {
-    const sql ="SELECT * FROM student";
+    const sql ="SELECT * FROM task";
     db.query(sql,(err,data) => {
   if(err) return res.json("Error");
+  console.log(data);
   return res.json(data);
     })
 })
 
-app.post("/", (req, res) => {
-  const { name } = req.body;
-  const sql = "INSERT INTO student (Name) VALUES (?)";
-  db.query(sql,[name], (err, data) => {
-      if (err) return res.json(err);
-      return res.json({ message: "Student added successfully", data });
-  });
-});
-
-app.delete("/student/:id",(req, res) => {
-  const sql = "DELETE FROM student WHERE ID = ?";
-  const id =req.params.id ;
-
-  db.query(sql,[id], (err, data) => {
-      if (err) return res.json(err);
-      return res.json({ message: "Student deleted successfully", data });
-  });
-});
-
-app.put("/student/:id", (req, res) => {
+app.put("/task/:id", (req, res) => {
   const { completed } = req.body;
-  const sql = "UPDATE student SET completed = ? WHERE ID = ?";
+  const sql = "UPDATE task SET completed = ? WHERE ID = ?";
   const id = req.params.id;
 
   db.query(sql, [completed, id], (err, data) => {
       if (err) return res.json(err);
-      return res.json({ message: "Student updated successfully", data });
+      return res.json({ message: "task updated successfully", data });
   });
 });
+
+app.post("/", (req, res) => {
+  const { name, completed } = req.body;
+  const sql = "INSERT INTO task (Name, completed) VALUES (?, ?)";
+  db.query(sql,[name, completed], (err, data) => {
+      if (err) return res.json(err);
+      return res.json({ message: "task added successfully", data });
+  });
+});
+
+app.delete("/task/:id",(req, res) => {
+  const sql = "DELETE FROM task WHERE ID = ?";
+  const id =req.params.id ;
+
+  db.query(sql,[id], (err, data) => {
+      if (err) return res.json(err);
+      return res.json({ message: "task deleted successfully", data });
+  });
+});
+
 const PORT = process.env.PORT || 8084;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
